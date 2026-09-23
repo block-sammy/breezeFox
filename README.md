@@ -18,7 +18,7 @@
 Suis attentivement ces instructions pour installer **BreezeFox** sur ton profil Firefox :
 
 ### Étape 1 : Récupérer le fichier de configuration
-1. Rends-toi sur le dépôt GitHub de **BreezeFox**.
+1. Rends-toi sur le dépôt GitHub de /github.com/block-sammy/breezeFox/blob/main/breezeFox.
 2. Ouvre le fichier `user.js`.
 3. Copie tout son contenu, ou télécharge-le directement sur ton ordinateur.
 
