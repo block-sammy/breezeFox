@@ -1,89 +1,151 @@
-# 🍃 BreezeFox
+# 🍃 BreezeFox 2.0
 
-BreezeFox est une configuration `user.js` pour Mozilla Firefox orientée confidentialité, simplicité et maintenance.
+**Une configuration Firefox simple à comprendre : choisissez votre niveau, installez user.js, redémarrez Firefox.**
 
-## ✨ Objectifs
+> **COMMENCER ICI → [Installation en 60 secondes](#-installation-en-60-secondes)**
 
-- Réduire les fonctions de télémétrie et de rapports facultatifs.
-- Désactiver certaines expériences et recommandations promotionnelles.
-- Activer la protection renforcée contre le pistage en mode Strict.
-- Activer le mode HTTPS uniquement.
-- Réduire certains chargements anticipés inutiles.
-- Éviter les réglages excessivement agressifs susceptibles de casser des sites.
+BreezeFox est un projet open source qui organise des préférences Firefox de confidentialité en trois niveaux. Le profil par défaut est volontairement léger ; les réglages plus sensibles sont séparés pour que vous puissiez choisir ce que vous acceptez.
 
-> **À savoir :** les préférences Firefox évoluent avec les versions. BreezeFox privilégie donc une configuration relativement conservatrice plutôt qu'une longue liste de réglages expérimentaux.
+## 🟢 Installation en 60 secondes
 
-## 📦 Installation
+### Option A — la plus simple
 
-Firefox charge `user.js` depuis le dossier du **profil Firefox**. Mozilla indique que le profil peut être ouvert depuis `about:profiles` ou `about:support`. citeturn0search5turn0search1
+1. Téléchargez le fichier **user.js** à la racine de ce dépôt.
+2. Dans Firefox, ouvrez **about:profiles**.
+3. Repérez le profil utilisé puis ouvrez son **Répertoire racine / Root Directory**.
+4. Fermez Firefox complètement.
+5. Placez **user.js** directement dans ce dossier.
+6. Relancez Firefox.
 
-### 1. Fermer Firefox
+Exemple :
 
-Ferme complètement Firefox avant de modifier son profil.
+    Profil Firefox/
+    ├── user.js
+    ├── prefs.js
+    ├── places.sqlite
+    └── ...
 
-### 2. Ouvrir le dossier du profil
+Mozilla documente le rôle de user.js et les dossiers de profil : [Assistance Mozilla — Éditeur de configuration Firefox](https://support.mozilla.org/fr/kb/editeur-configuration-firefox).
 
-Dans Firefox, ouvre :
+### Option B — Windows avec l'installateur
 
-```text
-about:profiles
-```
+Après avoir téléchargé ou cloné le dépôt, ouvrez PowerShell dans son dossier :
 
-Repère le profil utilisé puis ouvre son **Répertoire racine / Root Directory**.
+    .\scripts\install-breezefox.ps1 -Profile low
 
-### 3. Installer le fichier
+Profils disponibles :
 
-Copie le fichier `breezeFox` du dépôt dans ce dossier et renomme-le en :
+    low
+    moderate
+    high
 
-```text
-user.js
-```
+Le script demande le profil Firefox à utiliser et crée une sauvegarde avant de remplacer un user.js existant.
 
-Le fichier doit donc être placé directement dans le dossier du profil.
+## 🎚️ Choisir son niveau
 
-### 4. Redémarrer Firefox
+| Niveau | Fichier | Contenu | Risque de compatibilité |
+|---|---|---|---|
+| 🟢 **Low Risk** | **user.js** | Reporting/télémétrie facultatif + recommandations promotionnelles | faible |
+| 🟠 **Moderate** | **profiles/moderate.js** | Low Risk + ETP Strict + HTTPS-Only + rapports/expériences | modéré |
+| 🔴 **High Risk** | **profiles/high-risk.js** | Moderate + anti-fingerprinting + DoH forcé | élevé |
 
-Relance Firefox pour appliquer la configuration.
+**Commencez par Low Risk.** Passez à Moderate pour une protection plus stricte. Utilisez High Risk seulement si vous acceptez de tester vos sites et services importants.
 
-## 🔄 Comprendre `user.js`
+Mozilla indique que Resist Fingerprinting peut provoquer le dysfonctionnement de certains sites : [Mozilla — Résister à la prise d'empreintes numériques](https://support.mozilla.org/fr/kb/resist-fingerprinting). Mozilla explique également les exceptions de compatibilité liées à la protection renforcée contre le pistage : [Mozilla — Protection renforcée contre le pistage](https://support.mozilla.org/fr/kb/exceptions-protection-renforcee-contre-pistage).
 
-Firefox lit `user.js` au démarrage et réapplique les préférences qui y sont définies. Cela signifie qu'une modification faite dans `about:config` peut être remplacée au prochain démarrage si la même préférence est définie dans `user.js`. citeturn0search1turn0search10
+## 🔐 Que peut-on désactiver ?
 
-Pour retirer BreezeFox, ferme Firefox puis supprime `user.js` du profil. Les préférences ne seront alors plus réappliquées par ce fichier.
+BreezeFox ne cache pas les choix dans une énorme liste.
 
-## 🛡️ Ce que BreezeFox modifie
+**🟢 Faible risque**
+- reporting et télémétrie facultatifs ;
+- recommandations promotionnelles.
 
-| Catégorie | Configuration |
-|---|---|
-| Télémétrie | Réduction/désactivation de plusieurs mécanismes facultatifs |
-| Expériences | Désactivation de Shield/Normandy/Nimbus configurés dans le fichier |
-| Tracking | Protection renforcée en mode Strict |
-| HTTPS | Mode HTTPS uniquement |
-| Préchargement | Réduction du prefetch DNS/page |
-| Suggestions | Réduction des suggestions promotionnelles |
-| IA/ML | Désactivation des préférences IA présentes dans la configuration |
+**🟠 Modéré**
+- protection renforcée contre le pistage en mode Strict ;
+- HTTPS-Only ;
+- préchargements anticipés ;
+- certains rapports de crash ;
+- certaines expériences.
 
-## ⚠️ Compatibilité
+**🔴 Risque de compatibilité**
+- Resist Fingerprinting ;
+- DoH forcé.
 
-BreezeFox ne promet pas qu'aucun site ne rencontrera de problème. Certaines protections Firefox peuvent modifier le comportement de sites qui dépendent de fonctions de suivi ou de contenus tiers.
+La matrice détaillée est disponible dans [docs/preferences.md](docs/preferences.md).
 
-Après une mise à jour importante de Firefox, il est recommandé de vérifier le comportement du navigateur et les préférences définies dans `user.js`.
+## 🔄 Mise à jour
+
+BreezeFox fournit un updater Windows avec :
+- lecture de la version distante ;
+- identification du commit GitHub courant ;
+- téléchargement du profil choisi ;
+- calcul SHA-256 du fichier téléchargé ;
+- sauvegarde automatique du user.js actuel ;
+- remplacement uniquement du fichier user.js.
+
+Vérifier sans modifier :
+
+    .\scripts\update-breezefox.ps1 -Profile low -CheckOnly
+
+Mettre à jour :
+
+    .\scripts\update-breezefox.ps1 -Profile low
+
+Le projet n'exécute pas automatiquement du JavaScript distant dans votre profil.
+
+## ↩️ Désinstaller
+
+1. Fermez Firefox.
+2. Supprimez user.js du dossier du profil Firefox.
+3. Redémarrez Firefox.
+
+Firefox lit user.js au démarrage. Tant que le fichier reste présent, ses valeurs peuvent être réappliquées.
+
+## 🧩 Vérifier
+
+Ouvrez :
+
+    about:config
+
+ou :
+
+    about:support
+
+Mozilla avertit que about:config contient des réglages avancés pouvant affecter la stabilité, la sécurité et les performances : [Mozilla — about:config](https://support.mozilla.org/fr/kb/editeur-configuration-firefox).
 
 ## 📁 Structure
 
-```text
-breezeFox/
-├── README.md
-└── breezeFox
-```
+    breezeFox/
+    ├── README.md
+    ├── user.js
+    ├── VERSION
+    ├── profiles/
+    │   ├── README.md
+    │   ├── moderate.js
+    │   └── high-risk.js
+    ├── docs/
+    │   └── preferences.md
+    ├── scripts/
+    │   ├── install-breezefox.ps1
+    │   └── update-breezefox.ps1
+    └── .github/
+        └── workflows/
+            └── validate.yml
 
-Le fichier `breezeFox` est le `user.js` à installer dans le profil Firefox.
+## 🛠️ Maintenance
+
+Les préférences Firefox évoluent avec les versions. BreezeFox préfère une liste courte, lisible et documentée à une collection de réglages expérimentaux.
+
+GitHub Actions vérifie la syntaxe de base des user_pref et les doublons sur les fichiers de configuration.
 
 ## 📚 Documentation
 
-- [Profils Firefox — Assistance Mozilla](https://support.mozilla.org/fr/kb/profils-la-ou-firefox-conserve-donnees-utilisateur)
-- [À propos de `user.js` — Assistance Mozilla](https://support.mozilla.org/en-US/questions/1261139)
+- [Profils](profiles/README.md)
+- [Matrice des préférences](docs/preferences.md)
+- [Support Mozilla — profils Firefox](https://support.mozilla.org/fr/kb/profils-la-ou-firefox-conserve-donnees-utilisateur)
+- [Support Mozilla — about:config](https://support.mozilla.org/fr/kb/editeur-configuration-firefox)
 
 ## 📄 Licence
 
-Voir la licence du dépôt.
+Voir [LICENSE](LICENSE).
