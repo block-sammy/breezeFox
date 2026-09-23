@@ -1,30 +1,89 @@
 # 🍃 BreezeFox
 
-**BreezeFox** est un kit de configuration open-source et optimisé pour **Mozilla Firefox**. Conçu pour les utilisateurs soucieux de leur vie privée, il permet de transformer un navigateur standard en un outil ultra-rapide, respectueux de la confidentialité, et totalement débarrassé de la télémétrie, des publicités et des fonctionnalités d'IA superflues.
+BreezeFox est une configuration `user.js` pour Mozilla Firefox orientée confidentialité, simplicité et maintenance.
 
----
+## ✨ Objectifs
 
-## 🚀 Pourquoi utiliser BreezeFox ?
+- Réduire les fonctions de télémétrie et de rapports facultatifs.
+- Désactiver certaines expériences et recommandations promotionnelles.
+- Activer la protection renforcée contre le pistage en mode Strict.
+- Activer le mode HTTPS uniquement.
+- Réduire certains chargements anticipés inutiles.
+- Éviter les réglages excessivement agressifs susceptibles de casser des sites.
 
-* **Confidentialité maximale :** Désactivation complète de la télémétrie, des pings de suivi, des rapports de plantage et des études Shield/Normandy de Mozilla.
-* **Navigation épurée :** Suppression des suggestions publicitaires, des tendances de la barre d'adresse et des fonctionnalités d'intelligence artificielle intégrées.
-* **Performance et Sécurité :** Force le mode HTTPS uniquement, isole les scripts de suivi et applique des réglages propres pour alléger le navigateur.
-* **Simplicité :** Pas besoin d'installer de forks compliqués, tout repose sur un simple fichier de configuration natif (`user.js`).
+> **À savoir :** les préférences Firefox évoluent avec les versions. BreezeFox privilégie donc une configuration relativement conservatrice plutôt qu'une longue liste de réglages expérimentaux.
 
----
+## 📦 Installation
 
-## 🛠️ Guide d'installation étape par étape
+Firefox charge `user.js` depuis le dossier du **profil Firefox**. Mozilla indique que le profil peut être ouvert depuis `about:profiles` ou `about:support`. citeturn0search5turn0search1
 
-Suis attentivement ces instructions pour installer **BreezeFox** sur ton profil Firefox :
+### 1. Fermer Firefox
 
-### Étape 1 : Récupérer le fichier de configuration
-1. Rends-toi sur le dépôt [breezeFox](https://github.com/block-sammy/breezeFox/blob/main/breezeFox).
-2. Ouvre le fichier `user.js`.
-3. Copie tout son contenu, ou télécharge-le directement sur ton ordinateur.
+Ferme complètement Firefox avant de modifier son profil.
 
-### Étape 2 : Trouver ton dossier de profil Firefox
-1. Ouvre ton navigateur **Firefox**.
-2. Tape ou copie l'adresse suivante dans la barre d'URL et appuie sur Entrée :
-   ```text
-   about:support
-   
+### 2. Ouvrir le dossier du profil
+
+Dans Firefox, ouvre :
+
+```text
+about:profiles
+```
+
+Repère le profil utilisé puis ouvre son **Répertoire racine / Root Directory**.
+
+### 3. Installer le fichier
+
+Copie le fichier `breezeFox` du dépôt dans ce dossier et renomme-le en :
+
+```text
+user.js
+```
+
+Le fichier doit donc être placé directement dans le dossier du profil.
+
+### 4. Redémarrer Firefox
+
+Relance Firefox pour appliquer la configuration.
+
+## 🔄 Comprendre `user.js`
+
+Firefox lit `user.js` au démarrage et réapplique les préférences qui y sont définies. Cela signifie qu'une modification faite dans `about:config` peut être remplacée au prochain démarrage si la même préférence est définie dans `user.js`. citeturn0search1turn0search10
+
+Pour retirer BreezeFox, ferme Firefox puis supprime `user.js` du profil. Les préférences ne seront alors plus réappliquées par ce fichier.
+
+## 🛡️ Ce que BreezeFox modifie
+
+| Catégorie | Configuration |
+|---|---|
+| Télémétrie | Réduction/désactivation de plusieurs mécanismes facultatifs |
+| Expériences | Désactivation de Shield/Normandy/Nimbus configurés dans le fichier |
+| Tracking | Protection renforcée en mode Strict |
+| HTTPS | Mode HTTPS uniquement |
+| Préchargement | Réduction du prefetch DNS/page |
+| Suggestions | Réduction des suggestions promotionnelles |
+| IA/ML | Désactivation des préférences IA présentes dans la configuration |
+
+## ⚠️ Compatibilité
+
+BreezeFox ne promet pas qu'aucun site ne rencontrera de problème. Certaines protections Firefox peuvent modifier le comportement de sites qui dépendent de fonctions de suivi ou de contenus tiers.
+
+Après une mise à jour importante de Firefox, il est recommandé de vérifier le comportement du navigateur et les préférences définies dans `user.js`.
+
+## 📁 Structure
+
+```text
+breezeFox/
+├── README.md
+└── breezeFox
+```
+
+Le fichier `breezeFox` est le `user.js` à installer dans le profil Firefox.
+
+## 📚 Documentation
+
+- [Profils Firefox — Assistance Mozilla](https://support.mozilla.org/fr/kb/profils-la-ou-firefox-conserve-donnees-utilisateur)
+- [À propos de `user.js` — Assistance Mozilla](https://support.mozilla.org/en-US/questions/1261139)
+
+## 📄 Licence
+
+Voir la licence du dépôt.
