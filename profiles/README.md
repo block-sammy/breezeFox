@@ -1,26 +1,40 @@
-# BreezeFox profiles
+# Profils BreezeFox
 
-BreezeFox propose trois niveaux de configuration. Copiez **un seul** profil dans le fichier `user.js` de votre profil Firefox.
+Choisissez **un seul** profil et copiez son contenu dans le dossier du profil Firefox sous le nom **user.js**.
 
-## Niveaux
+| Profil | Objectif | Risque de compatibilité |
+|---|---|---|
+| **Low Risk** — user.js | Base légère : télémétrie facultative + recommandations promotionnelles | 🟢 faible |
+| **Moderate** — profiles/moderate.js | Plus de protection : ETP Strict, HTTPS-Only, crash/expériences | 🟠 modéré |
+| **High Risk** — profiles/high-risk.js | Durcissement avancé, anti-fingerprinting et DoH forcé | 🔴 élevé |
 
-- `balanced.js` — recommandé pour commencer : réduction de télémétrie et de contenu promotionnel, avec peu de changements susceptibles d'affecter les sites.
-- `privacy.js` — protections supplémentaires contre le pistage et certaines fonctions réseau anticipées.
-- `hardened.js` — réglages plus stricts. Certains sites ou fonctions Firefox peuvent ne plus fonctionner comme prévu.
+## Low Risk
 
-Le choix est volontairement explicite : il n'existe pas de mode caché qui désactive tout.
+Utilisez le fichier **user.js** situé à la racine du dépôt.
 
-## Installation
+Il réduit principalement certains mécanismes de reporting/télémétrie et plusieurs recommandations promotionnelles, sans imposer les réglages les plus sensibles.
 
-1. Fermez Firefox.
-2. Ouvrez `about:support` avant de fermer Firefox et repérez **Dossier de profil**.
-3. Placez le contenu du profil choisi dans un fichier nommé `user.js` à la racine du profil.
-4. Redémarrez Firefox.
+## Moderate
 
-`user.js` est appliqué au démarrage et peut réappliquer ses valeurs après un changement manuel dans `about:config`.
+Utilisez **profiles/moderate.js**.
+
+Il ajoute notamment la Protection renforcée contre le pistage en mode Strict, HTTPS-Only et des réglages supplémentaires de reporting/expériences.
+
+## High Risk
+
+Utilisez **profiles/high-risk.js**.
+
+Il reprend Moderate et ajoute :
+
+- **privacy.resistFingerprinting = true**
+- **network.trr.mode = 3**
+
+Mozilla indique que Resist Fingerprinting peut provoquer des dysfonctionnements sur certains sites. Le DoH forcé peut aussi être inadapté à certains réseaux.
 
 ## Retour arrière
 
-Supprimez `user.js` du profil Firefox puis redémarrez Firefox. Pour une préférence précise, vérifiez ensuite `about:config`.
+1. Fermez Firefox.
+2. Supprimez **user.js** du dossier de profil.
+3. Redémarrez Firefox.
 
-> Les préférences Firefox changent avec les versions. BreezeFox ne promet pas qu'une préférence reste disponible indéfiniment.
+Firefox lit **user.js** au démarrage : garder le fichier en place peut donc réappliquer les valeurs à chaque lancement.
