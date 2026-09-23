@@ -45,7 +45,7 @@ Le script demande le profil Firefox à utiliser et crée une sauvegarde avant de
 
 | Niveau | Fichier | Contenu | Risque de compatibilité |
 |---|---|---|---|
-| 🟢 **Low Risk** | **user.js** | Reporting/télémétrie facultatif + recommandations promotionnelles | faible |
+| 🟢 **** | **user.js** | Reporting/télémétrie facultatif + recommandations promotionnelles | faible |
 | 🟠 **Moderate** | **profiles/moderate.js** | Low Risk + ETP Strict + HTTPS-Only + rapports/expériences | modéré |
 | 🔴 **High Risk** | **profiles/high-risk.js** | Moderate + anti-fingerprinting + DoH forcé | élevé |
 
