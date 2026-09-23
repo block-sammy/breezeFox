@@ -1,0 +1,56 @@
+name: Validate BreezeFox
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate version
+        shell: bash
+        run: |
+          test -s VERSION
+          grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' VERSION
+
+      - name: Validate user_pref syntax and duplicates
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+
+          files = [Path("user.js"), *Path("profiles").glob("*.js")]
+          pattern = re.compile(r'^\s*user_pref\("([^"]+)",\s*.+\);\s*$')
+          errors = []
+
+          for path in files:
+              seen = set()
+              for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+                  if "user_pref(" not in line:
+                      continue
+                  match = pattern.match(line)
+                  if not match:
+                      errors.append(f"{path}:{line_number}: malformed user_pref")
+                      continue
+                  name = match.group(1)
+                  if name in seen:
+                      errors.append(f"{path}:{line_number}: duplicate preference {name}")
+                  seen.add(name)
+
+          if errors:
+              print("\n".join(errors))
+              sys.exit(1)
+
+          print(f"Validated {len(files)} preference files.")
+          PY
