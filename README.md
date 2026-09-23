@@ -46,7 +46,7 @@ Le script demande le profil Firefox à utiliser et crée une sauvegarde avant de
 | Niveau | Fichier | Contenu | Risque de compatibilité |
 |---|---|---|---|
 | 🟢 **** | **user.js** | Reporting/télémétrie facultatif + recommandations promotionnelles | faible |
-| 🟠 **Moderate** | **profiles/moderate.js** | Low Risk + ETP Strict + HTTPS-Only + rapports/expériences | modéré |
+| 🟠 **[modere](https://github.com/block-sammy/breezeFox/blob/main/profiles/moderate.js)** | **profiles/moderate.js** | Low Risk + ETP Strict + HTTPS-Only + rapports/expériences | modéré |
 | 🔴 **High Risk** | **profiles/high-risk.js** | Moderate + anti-fingerprinting + DoH forcé | élevé |
 
 **Commencez par Low Risk.** Passez à Moderate pour une protection plus stricte. Utilisez High Risk seulement si vous acceptez de tester vos sites et services importants.
