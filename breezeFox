@@ -1,0 +1,76 @@
+//
+/* Mon User.js Personnalisé & Ultra-Propre pour Firefox
+ * Objectif : Zéro télémétrie, zéro pub, vie privée maximale et légèreté.
+ */
+
+/****************************************************************************
+ * SECTION 1: ACTIVATION DES CUSTOMISATIONS (OBLIGATOIRE)                   *
+****************************************************************************/
+// Permet d'utiliser un fichier userChrome.css pour changer le design plus tard
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+
+
+/****************************************************************************
+ * SECTION 2: SUPPRESSION TOTALE DE LA TÉLÉMÉTRIE & DES PINGS                *
+****************************************************************************/
+user_pref("datareporting.policy.dataSubmissionEnabled", false);
+user_pref("datareporting.healthreport.uploadEnabled", false);
+user_pref("toolkit.telemetry.unified", false);
+user_pref("toolkit.telemetry.enabled", false);
+user_pref("toolkit.telemetry.server", "data:,");
+user_pref("toolkit.telemetry.archive.enabled", false);
+user_pref("toolkit.telemetry.newProfilePing.enabled", false);
+user_pref("toolkit.telemetry.shutdownPingSender.enabled", false);
+user_pref("toolkit.telemetry.updatePing.enabled", false);
+user_pref("toolkit.telemetry.bhrPing.enabled", false);
+user_pref("toolkit.telemetry.firstShutdownPing.enabled", false);
+user_pref("toolkit.telemetry.coverage.opt-out", true);
+user_pref("toolkit.coverage.opt-out", true);
+user_pref("toolkit.coverage.endpoint.base", "");
+user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
+user_pref("browser.newtabpage.activity-stream.telemetry", false);
+user_pref("datareporting.usage.uploadEnabled", false);
+
+
+/****************************************************************************
+ * SECTION 3: EXPÉRIENCES, NORMANDY & RAPPORTS DE PLANTAGE                 *
+****************************************************************************/
+user_pref("app.shield.optoutstudies.enabled", false);
+user_pref("app.normandy.enabled", false);
+user_pref("app.normandy.api_url", "");
+user_pref("nimbus.rollouts.enabled", false);
+user_pref("breakpad.reportURL", "");
+user_pref("browser.tabs.crashReporting.sendReport", false);
+user_pref("browser.crashReports.unsubmittedCheck.enabled", false);
+
+
+/****************************************************************************
+ * SECTION 4: SÉCURITÉ & PROTECTION CONTRE LE PISTAGE                       *
+********************************----------------****************************/
+// Active le blocage strict des traqueurs par défaut de Firefox
+user_pref("browser.contentblocking.category", "strict");
+// Force le mode HTTPS uniquement
+user_pref("dom.security.https_only_mode", true);
+// Désactive le prefetching (le navigateur ne charge pas les pages en cache avant que tu cliques)
+user_pref("network.prefetch-next", false);
+user_pref("network.dns.disablePrefetch", true);
+
+
+/****************************************************************************
+ * SECTION 5: NETTOYAGE DE L'INTERFACE, PUBS & IA MOZILLA                  *
+****************************************************************************/
+// Bloque les fonctionnalités IA intégrées de Firefox
+user_pref("browser.ai.control.default", "blocked");
+user_pref("browser.ml.enable", false);
+user_pref("browser.ml.chat.enabled", false);
+
+// Supprime les recommandations, pubs et suggestions de la barre d'adresse / page d'accueil
+user_pref("browser.urlbar.suggest.searches", false);
+user_pref("browser.urlbar.quicksuggest.enabled", false);
+user_pref("browser.urlbar.trending.featureGate", false);
+user_pref("browser.newtabpage.activity-stream.showSponsored", false);
+user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
+user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
+user_pref("browser.discovery.enabled", false);
+user_pref("browser.aboutwelcome.enabled", false);
+user_pref("browser.preferences.moreFromMozilla", false);
