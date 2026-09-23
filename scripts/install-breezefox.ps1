@@ -16,10 +16,10 @@ if (-not (Test-Path $source)) {
   throw "Profil introuvable : $source"
 }
 
-Write-Host "BreezeFox installer"
-Write-Host "Profil choisi : $Profile"
+Write-Host "BreezeFox installer" -ForegroundColor Cyan
+Write-Host "Profil : $Profile"
 Write-Host ""
-Write-Host "Fermez Firefox complètement avant de continuer." -ForegroundColor Yellow
+Write-Host "Fermez Firefox complètement." -ForegroundColor Yellow
 Read-Host "Appuyez sur Entrée quand Firefox est fermé"
 
 $roots = @(
@@ -32,25 +32,46 @@ $profiles = foreach ($rootPath in $roots) {
 }
 
 if (-not $profiles) {
-  throw "Aucun profil Firefox détecté. Utilisez about:profiles pour trouver votre profil."
+  throw "Aucun profil Firefox détecté. Utilisez about:profiles pour localiser le dossier."
 }
 
-$profilePath = $profiles |
-  Sort-Object LastWriteTime -Descending |
-  Select-Object -First 1
+$profiles = @($profiles)
 
-$target = Join-Path $profilePath.FullName "user.js"
+if ($profiles.Count -eq 1) {
+  $selected = $profiles[0]
+} else {
+  Write-Host "Profils détectés :"
+  for ($i = 0; $i -lt $profiles.Count; $i++) {
+    Write-Host "[$($i + 1)] $($profiles[$i].Name)"
+  }
+
+  $choice = Read-Host "Choisissez le numéro du profil"
+  if ($choice -notmatch '^[0-9]+$') {
+    throw "Choix invalide."
+  }
+
+  $index = [int]$choice - 1
+  if ($index -lt 0 -or $index -ge $profiles.Count) {
+    throw "Choix invalide."
+  }
+
+  $selected = $profiles[$index]
+}
+
+$target = Join-Path $selected.FullName "user.js"
+
+Write-Host ""
+Write-Host "Profil sélectionné : $($selected.FullName)"
 
 if (Test-Path $target) {
   $backup = "$target.backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
   Copy-Item $target $backup -Force
-  Write-Host "Sauvegarde créée : $backup" -ForegroundColor Cyan
+  Write-Host "Sauvegarde : $backup" -ForegroundColor DarkCyan
 }
 
 Copy-Item $source $target -Force
 
 Write-Host ""
-Write-Host "BreezeFox est installé :" -ForegroundColor Green
+Write-Host "BreezeFox installé dans :" -ForegroundColor Green
 Write-Host $target
-Write-Host ""
 Write-Host "Redémarrez Firefox pour appliquer les préférences."
