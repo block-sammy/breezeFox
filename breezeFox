@@ -1,23 +1,30 @@
-//
-/* Mon User.js Personnalisé & Ultra-Propre pour Firefox
- * Objectif : Zéro télémétrie, zéro pub, vie privée maximale et légèreté.
+/*
+ * BreezeFox — Firefox user.js
+ *
+ * Objectifs :
+ * - réduire la collecte et les fonctions de télémétrie facultatives ;
+ * - renforcer les protections de confidentialité déjà fournies par Firefox ;
+ * - supprimer les recommandations/suggestions promotionnelles ;
+ * - conserver une configuration raisonnable et réversible.
+ *
+ * IMPORTANT : user.js est appliqué au démarrage de Firefox. Les réglages
+ * définis ici peuvent donc reprendre le dessus sur les changements faits
+ * dans about:config au redémarrage.
  */
 
 /****************************************************************************
- * SECTION 1: ACTIVATION DES CUSTOMISATIONS (OBLIGATOIRE)                   *
-****************************************************************************/
-// Permet d'utiliser un fichier userChrome.css pour changer le design plus tard
+ * 1. PERSONNALISATION                                                     *
+ ****************************************************************************/
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
-
 /****************************************************************************
- * SECTION 2: SUPPRESSION TOTALE DE LA TÉLÉMÉTRIE & DES PINGS                *
-****************************************************************************/
+ * 2. TÉLÉMÉTRIE ET RAPPORTS                                                *
+ ****************************************************************************/
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 user_pref("datareporting.healthreport.uploadEnabled", false);
+user_pref("datareporting.usage.uploadEnabled", false);
 user_pref("toolkit.telemetry.unified", false);
 user_pref("toolkit.telemetry.enabled", false);
-user_pref("toolkit.telemetry.server", "data:,");
 user_pref("toolkit.telemetry.archive.enabled", false);
 user_pref("toolkit.telemetry.newProfilePing.enabled", false);
 user_pref("toolkit.telemetry.shutdownPingSender.enabled", false);
@@ -29,12 +36,10 @@ user_pref("toolkit.coverage.opt-out", true);
 user_pref("toolkit.coverage.endpoint.base", "");
 user_pref("browser.newtabpage.activity-stream.feeds.telemetry", false);
 user_pref("browser.newtabpage.activity-stream.telemetry", false);
-user_pref("datareporting.usage.uploadEnabled", false);
-
 
 /****************************************************************************
- * SECTION 3: EXPÉRIENCES, NORMANDY & RAPPORTS DE PLANTAGE                 *
-****************************************************************************/
+ * 3. ÉTUDES, EXPÉRIENCES ET RAPPORTS DE CRASH                              *
+ ****************************************************************************/
 user_pref("app.shield.optoutstudies.enabled", false);
 user_pref("app.normandy.enabled", false);
 user_pref("app.normandy.api_url", "");
@@ -43,28 +48,22 @@ user_pref("breakpad.reportURL", "");
 user_pref("browser.tabs.crashReporting.sendReport", false);
 user_pref("browser.crashReports.unsubmittedCheck.enabled", false);
 
-
 /****************************************************************************
- * SECTION 4: SÉCURITÉ & PROTECTION CONTRE LE PISTAGE                       *
-********************************----------------****************************/
-// Active le blocage strict des traqueurs par défaut de Firefox
+ * 4. PROTECTION CONTRE LE PISTAGE                                           *
+ ****************************************************************************/
+// Utilise la protection renforcée contre le pistage en mode Strict.
 user_pref("browser.contentblocking.category", "strict");
-// Force le mode HTTPS uniquement
+
+// Force HTTPS lorsque Firefox le permet.
 user_pref("dom.security.https_only_mode", true);
-// Désactive le prefetching (le navigateur ne charge pas les pages en cache avant que tu cliques)
+
+// Réduit les requêtes anticipées inutiles.
 user_pref("network.prefetch-next", false);
 user_pref("network.dns.disablePrefetch", true);
 
-
 /****************************************************************************
- * SECTION 5: NETTOYAGE DE L'INTERFACE, PUBS & IA MOZILLA                  *
-****************************************************************************/
-// Bloque les fonctionnalités IA intégrées de Firefox
-user_pref("browser.ai.control.default", "blocked");
-user_pref("browser.ml.enable", false);
-user_pref("browser.ml.chat.enabled", false);
-
-// Supprime les recommandations, pubs et suggestions de la barre d'adresse / page d'accueil
+ * 5. SUGGESTIONS, PUBLICITÉS ET CONTENU PROMOTIONNEL                      *
+ ****************************************************************************/
 user_pref("browser.urlbar.suggest.searches", false);
 user_pref("browser.urlbar.quicksuggest.enabled", false);
 user_pref("browser.urlbar.trending.featureGate", false);
@@ -74,3 +73,22 @@ user_pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);
 user_pref("browser.discovery.enabled", false);
 user_pref("browser.aboutwelcome.enabled", false);
 user_pref("browser.preferences.moreFromMozilla", false);
+
+/****************************************************************************
+ * 6. FONCTIONS IA / MACHINE LEARNING                                       *
+ ****************************************************************************/
+// Ces préférences sont laissées explicites afin que leur intention soit claire.
+user_pref("browser.ai.control.default", "blocked");
+user_pref("browser.ml.enable", false);
+user_pref("browser.ml.chat.enabled", false);
+
+/****************************************************************************
+ * 7. NOTES                                                                  *
+ ****************************************************************************/
+// BreezeFox évite volontairement les réglages très agressifs qui peuvent
+// casser des sites, réduire l'accessibilité ou rendre Firefox difficile à
+// maintenir après une mise à jour.
+//
+// Si un réglage n'existe plus dans une version récente de Firefox, Firefox
+// l'ignorera généralement ; il est toutefois recommandé de vérifier les
+// préférences après les grosses mises à jour du navigateur.
